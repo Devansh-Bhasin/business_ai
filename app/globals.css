@@ -1,16 +1,19 @@
 :root {
   color-scheme: dark;
-  --bg: #07111f;
-  --panel: rgba(11, 25, 46, 0.72);
-  --panel-strong: rgba(15, 31, 56, 0.94);
-  --border: rgba(148, 163, 184, 0.18);
-  --text: #e5eefc;
-  --muted: #9fb1cc;
-  --accent: #78a7ff;
-  --accent-strong: #a78bfa;
+  --bg: #07101b;
+  --panel: rgba(8, 18, 33, 0.74);
+  --panel-strong: rgba(10, 24, 42, 0.94);
+  --panel-soft: rgba(255, 255, 255, 0.03);
+  --border: rgba(155, 174, 204, 0.16);
+  --border-strong: rgba(123, 164, 255, 0.28);
+  --text: #edf4ff;
+  --muted: #99acc9;
+  --accent: #84b4ff;
+  --accent-strong: #9e8cff;
   --success: #97f2c5;
   --danger: #ff9b9b;
-  --shadow: 0 24px 80px rgba(5, 11, 24, 0.45);
+  --shadow: 0 24px 80px rgba(4, 10, 21, 0.42);
+  --shadow-soft: 0 10px 30px rgba(2, 8, 17, 0.2);
 }
 
 * {
@@ -26,9 +29,9 @@ body {
   min-height: 100vh;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(120, 167, 255, 0.18), transparent 30%),
-    radial-gradient(circle at top right, rgba(167, 139, 250, 0.16), transparent 28%),
-    linear-gradient(180deg, #091321 0%, #050b14 100%);
+    radial-gradient(circle at top left, rgba(132, 180, 255, 0.17), transparent 32%),
+    radial-gradient(circle at top right, rgba(158, 140, 255, 0.14), transparent 24%),
+    linear-gradient(180deg, #08111d 0%, #050a11 100%);
   color: var(--text);
 }
 
@@ -42,10 +45,14 @@ textarea {
   font: inherit;
 }
 
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .pageShell {
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 24px 0 40px;
+  padding: 28px 0 44px;
 }
 
 .heroSection,
@@ -56,32 +63,53 @@ textarea {
 }
 
 .heroSection {
-  grid-template-columns: 1.3fr 0.9fr;
-  align-items: center;
-  padding: 56px 0 24px;
+  grid-template-columns: 1.2fr 0.9fr;
+  align-items: start;
+  padding: 56px 0 20px;
+}
+
+.heroCopy,
+.heroStack,
+.scenarioCardGrid,
+.trustBar,
+.ctaPanel,
+.pricingGrid,
+.wiringChecklist {
+  display: grid;
+  gap: 18px;
 }
 
 .heroCopy h1,
 .generatorHeader h2,
-.pricingIntro h2 {
+.pricingIntro h2,
+.sectionIntro h2,
+.ctaPanel h2 {
   margin: 0;
-  font-size: clamp(2.3rem, 4vw, 4.6rem);
-  line-height: 0.98;
-  letter-spacing: -0.05em;
+  font-size: clamp(2.5rem, 4.3vw, 4.9rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
 }
 
 .generatorHeader h2,
-.pricingIntro h2 {
-  font-size: clamp(1.7rem, 3vw, 2.8rem);
-  line-height: 1.05;
+.pricingIntro h2,
+.sectionIntro h2,
+.ctaPanel h2 {
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  line-height: 1.02;
 }
 
 .heroText,
 .mutedText,
 .resultMessage,
-.statusList {
+.statusList,
+.mutedInline {
   color: var(--muted);
-  line-height: 1.65;
+  line-height: 1.68;
+}
+
+.heroText {
+  max-width: 760px;
+  font-size: 1.08rem;
 }
 
 .eyebrow,
@@ -90,7 +118,7 @@ textarea {
   text-transform: uppercase;
   letter-spacing: 0.18em;
   font-size: 0.76rem;
-  color: #c6d6f7;
+  color: #c9d8f8;
 }
 
 .heroActions,
@@ -98,7 +126,9 @@ textarea {
 .pricingRow,
 .resultHeader,
 .formFooter,
-.siteFooter {
+.siteFooter,
+.planHeader,
+.ctaActions {
   display: flex;
   gap: 12px;
   align-items: center;
@@ -111,7 +141,7 @@ textarea {
 .toneCard {
   border: 1px solid transparent;
   border-radius: 18px;
-  transition: 160ms ease;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, opacity 160ms ease;
 }
 
 .primaryButton,
@@ -128,14 +158,24 @@ textarea {
   box-shadow: var(--shadow);
 }
 
+.primaryButton:hover,
+.secondaryButton:hover,
+.copyButton:hover,
+.chip:hover,
+.toneCard:hover {
+  transform: translateY(-1px);
+}
+
 .primaryButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
 .secondaryButton,
-.copyButton {
-  background: rgba(255, 255, 255, 0.02);
+.copyButton,
+.planPill,
+.usageBadge {
+  background: rgba(255, 255, 255, 0.03);
   color: var(--text);
   border-color: var(--border);
 }
@@ -152,21 +192,39 @@ textarea {
 .paywallCard,
 .emptyState,
 .resultCard,
-.formPanel {
+.formPanel,
+.scenarioCard,
+.microProofCard,
+.ctaPanel,
+.trustBar {
   padding: 24px;
 }
 
 .heroCard h3,
 .emptyState h3,
 .resultCard h3,
-.paywallCard h3 {
+.paywallCard h3,
+.scenarioCard h3 {
   margin: 0 0 12px;
   font-size: 1.35rem;
+  line-height: 1.15;
+}
+
+.trustBar {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.trustBar strong {
+  display: block;
+  line-height: 1.45;
 }
 
 .statGrid,
 .featureList,
-.statusList {
+.statusList,
+.scenarioCardGrid,
+.pricingGrid,
+.wiringChecklist {
   display: grid;
   gap: 14px;
 }
@@ -188,8 +246,28 @@ textarea {
   padding-left: 18px;
 }
 
+.featureListInline {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .contentSection {
-  padding: 24px 0;
+  padding: 28px 0;
+}
+
+.sectionIntro {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.scenarioCardGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.scenarioCard,
+.microProofCard,
+.pricingTier {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
 }
 
 .generatorShell {
@@ -203,16 +281,38 @@ textarea {
   gap: 24px;
 }
 
-.generatorHeader .mutedText {
-  max-width: 420px;
+.headerMeta {
+  max-width: 430px;
+  display: grid;
+  gap: 14px;
+}
+
+.usageBadge,
+.planPill {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 12px 14px;
+  box-shadow: var(--shadow-soft);
+}
+
+.usageBadge span,
+.planPill {
+  font-weight: 600;
+}
+
+.usageBadge small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
 }
 
 .generatorGrid {
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
 }
 
 .formPanel,
-.resultsColumn {
+.resultsColumn,
+.pricingTier {
   display: grid;
   gap: 18px;
 }
@@ -250,28 +350,35 @@ textarea {
 
 .chipActive,
 .toneActive,
-.chip:hover,
-.toneCard:hover,
-.copyButton:hover,
-.secondaryButton:hover {
-  border-color: rgba(120, 167, 255, 0.8);
-  transform: translateY(-1px);
+.secondaryButton:hover,
+.copyButton:hover {
+  border-color: var(--border-strong);
 }
 
 .contextArea {
   width: 100%;
   border-radius: 20px;
   border: 1px solid var(--border);
-  background: rgba(2, 6, 14, 0.35);
+  background: rgba(2, 6, 14, 0.36);
   color: var(--text);
   padding: 16px;
   resize: vertical;
   min-height: 180px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.contextArea:focus {
+  outline: 1px solid var(--border-strong);
 }
 
 .formFooter {
   justify-content: space-between;
   margin-top: 6px;
+}
+
+.mutedInline {
+  margin: 4px 0 0;
+  font-size: 0.94rem;
 }
 
 .errorText {
@@ -283,9 +390,10 @@ textarea {
   align-content: start;
 }
 
-.resultHeader {
+.resultHeader,
+.planHeader {
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: 6px;
 }
 
 .resultMessage {
@@ -295,6 +403,41 @@ textarea {
 
 .pricingSection {
   grid-template-columns: 0.9fr 1.1fr;
+  align-items: center;
+}
+
+.pricingGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pricingTier {
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 20px;
+}
+
+.pricingTierAccent {
+  border-color: var(--border-strong);
+}
+
+.priceLockup {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+}
+
+.compactList {
+  gap: 10px;
+}
+
+.wiringChecklist {
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  margin-top: 8px;
+}
+
+.ctaPanel {
+  grid-template-columns: 1.2fr auto;
   align-items: center;
 }
 
@@ -308,20 +451,28 @@ textarea {
 @media (max-width: 960px) {
   .heroSection,
   .generatorGrid,
-  .pricingSection {
+  .pricingSection,
+  .scenarioCardGrid,
+  .pricingGrid,
+  .ctaPanel,
+  .trustBar,
+  .wiringChecklist {
     grid-template-columns: 1fr;
   }
 
   .generatorHeader,
   .siteFooter,
   .formFooter,
-  .pricingRow {
+  .pricingRow,
+  .planHeader,
+  .ctaActions {
     flex-direction: column;
     align-items: flex-start;
   }
 
   .chipGrid,
-  .statGrid {
+  .statGrid,
+  .featureListInline {
     grid-template-columns: 1fr;
   }
 }

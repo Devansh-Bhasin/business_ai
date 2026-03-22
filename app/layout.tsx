@@ -3,7 +3,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'ClearReply',
-  description: 'Write polished business messages for awkward, high-stakes moments in seconds.',
+  description: 'Draft polished business messages for awkward, high-stakes moments in seconds.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
