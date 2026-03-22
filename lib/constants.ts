@@ -52,16 +52,16 @@ export const tones: Array<{ id: ToneId; label: string; hint: string }> = [
 ];
 
 export const featureBullets = [
-  'Three polished variants per brief: professional, warm, and firm',
-  'Built for founders, operators, agencies, and support teams',
-  'Copy-ready output for email, client chat, and internal follow-ups',
-  'Usage guardrails designed for free limits now and paid caps next',
+  'Three send-ready variants in one pass: professional, warm, and firm',
+  'Built for founders, client teams, operators, and support leads',
+  'Made for email, Slack, client chat, and any message where tone matters',
+  'Faster than rewriting drafts from scratch and safer than winging it',
 ];
 
 export const trustSignals = [
-  'No bloated CRM workflow to get value',
-  'Optimized for awkward, high-stakes business moments',
-  'Practical usage controls for profitable self-serve growth',
+  'Feels polished without sounding robotic',
+  'Useful in the awkward moments generic AI usually fumbles',
+  'Lean enough for self-serve conversion, structured enough to monetize cleanly',
 ];
 
 export const scenarioHighlights = [
@@ -76,5 +76,68 @@ export const scenarioHighlights = [
   {
     title: 'Clear no’s, cleaner boundaries',
     description: 'Decline requests, reset scope, or push back on timing without sounding cold, vague, or apologetic.',
+  },
+];
+
+export const audienceCards = [
+  {
+    title: 'Founders and operators',
+    description: 'When every client message carries brand weight and there is no comms team to clean it up after you.',
+  },
+  {
+    title: 'Agencies and freelancers',
+    description: 'For scope pushback, payment follow-ups, timeline resets, and keeping relationships warm while holding boundaries.',
+  },
+  {
+    title: 'Support and success teams',
+    description: 'For replies that sound calm, thoughtful, and accountable even when the thread is tense.',
+  },
+];
+
+export const workflowSteps = [
+  {
+    step: '01',
+    title: 'Drop in the situation',
+    description: 'Paste the context, the constraint, and the outcome you want — no prompt gymnastics required.',
+  },
+  {
+    step: '02',
+    title: 'Choose the tone',
+    description: 'Pick balanced, empathetic, or direct depending on the relationship, urgency, and commercial reality.',
+  },
+  {
+    step: '03',
+    title: 'Send the best version',
+    description: 'Get three usable drafts, copy the one that fits, and ship the message without second-guessing every line.',
+  },
+];
+
+export const valueProps = [
+  {
+    title: 'Protects relationships while keeping the ask clear',
+    description: 'The point is not just “nicer wording.” It is sending a message that preserves trust without diluting what needs to happen next.',
+  },
+  {
+    title: 'Built for real business tension, not generic writing prompts',
+    description: 'Late payments, no-response follow-ups, support friction, and scope boundaries are where tone actually changes outcomes.',
+  },
+  {
+    title: 'Premium feel, low-friction workflow',
+    description: 'No templates maze. No bloated dashboard. Just a fast drafting surface that feels credible enough to pay for.',
+  },
+];
+
+export const testimonialCards = [
+  {
+    quote: 'Exactly the kind of tool you reach for when the message matters more than people think.',
+    role: 'Placeholder feedback style',
+  },
+  {
+    quote: 'The best part is getting three angles instantly instead of rewriting the same email five times.',
+    role: 'Representative early-user sentiment',
+  },
+  {
+    quote: 'Feels more like a tone co-pilot than a generic AI writer.',
+    role: 'Positioning-ready proof block',
   },
 ];

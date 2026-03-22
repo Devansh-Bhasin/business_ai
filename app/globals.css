@@ -74,7 +74,8 @@ button {
 .trustBar,
 .ctaPanel,
 .pricingGrid,
-.wiringChecklist {
+.wiringChecklist,
+.infoCardGrid {
   display: grid;
   gap: 18px;
 }
@@ -102,7 +103,8 @@ button {
 .mutedText,
 .resultMessage,
 .statusList,
-.mutedInline {
+.mutedInline,
+.testimonialQuote {
   color: var(--muted);
   line-height: 1.68;
 }
@@ -113,12 +115,17 @@ button {
 }
 
 .eyebrow,
-.tinyLabel {
+.tinyLabel,
+.stepLabel {
   margin: 0 0 10px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   font-size: 0.76rem;
   color: #c9d8f8;
+}
+
+.stepLabel {
+  color: var(--accent);
 }
 
 .heroActions,
@@ -196,7 +203,9 @@ button {
 .scenarioCard,
 .microProofCard,
 .ctaPanel,
-.trustBar {
+.trustBar,
+.infoCard,
+.testimonialCard {
   padding: 24px;
 }
 
@@ -204,7 +213,9 @@ button {
 .emptyState h3,
 .resultCard h3,
 .paywallCard h3,
-.scenarioCard h3 {
+.scenarioCard h3,
+.infoCard h3,
+.testimonialCard h3 {
   margin: 0 0 12px;
   font-size: 1.35rem;
   line-height: 1.15;
@@ -224,7 +235,8 @@ button {
 .statusList,
 .scenarioCardGrid,
 .pricingGrid,
-.wiringChecklist {
+.wiringChecklist,
+.infoCardGrid {
   display: grid;
   gap: 14px;
 }
@@ -258,16 +270,33 @@ button {
   display: grid;
   gap: 10px;
   margin-bottom: 18px;
+  max-width: 860px;
 }
 
-.scenarioCardGrid {
+.scenarioCardGrid,
+.valueGrid,
+.audienceGrid,
+.workflowGrid,
+.testimonialGrid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .scenarioCard,
 .microProofCard,
-.pricingTier {
+.pricingTier,
+.infoCard,
+.testimonialCard {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+}
+
+.workflowCard,
+.testimonialCard {
+  min-height: 100%;
+}
+
+.testimonialQuote {
+  margin: 0 0 18px;
+  font-size: 1.05rem;
 }
 
 .generatorShell {
@@ -436,6 +465,13 @@ button {
   margin-top: 8px;
 }
 
+.upgradeButtonWrap {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+  max-width: 320px;
+}
+
 .ctaPanel {
   grid-template-columns: 1.2fr auto;
   align-items: center;
@@ -456,7 +492,11 @@ button {
   .pricingGrid,
   .ctaPanel,
   .trustBar,
-  .wiringChecklist {
+  .wiringChecklist,
+  .valueGrid,
+  .audienceGrid,
+  .workflowGrid,
+  .testimonialGrid {
     grid-template-columns: 1fr;
   }
 
