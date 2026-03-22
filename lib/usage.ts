@@ -60,7 +60,7 @@ export async function getUsageSnapshot(sessionId: string): Promise<UsageSnapshot
   });
 }
 
-export async function reserveUsage(sessionId: string): Promise<UsageSnapshot> {
+export async function commitUsage(sessionId: string): Promise<UsageSnapshot> {
   const supabase = getServiceSupabaseClient();
 
   if (!supabase) {
@@ -68,7 +68,7 @@ export async function reserveUsage(sessionId: string): Promise<UsageSnapshot> {
   }
 
   const periodKey = getCurrentPeriodKey();
-  const { data, error } = await supabase.rpc('reserve_generation_usage', {
+  const { data, error } = await supabase.rpc('commit_generation_usage', {
     p_session_id: sessionId,
     p_period_key: periodKey,
     p_free_limit: appEnv.freeGenerations,
@@ -76,25 +76,19 @@ export async function reserveUsage(sessionId: string): Promise<UsageSnapshot> {
   });
 
   if (error) {
-    throw new Error(`Unable to reserve usage: ${error.message}`);
+    throw new Error(`Unable to commit usage: ${error.message}`);
   }
 
   const row = Array.isArray(data) ? data[0] : data;
 
   if (!row) {
-    throw new Error('Usage reservation returned no data.');
+    throw new Error('Usage commit returned no data.');
   }
 
-  const snapshot = buildSnapshot({
+  return buildSnapshot({
     sessionId,
     plan: coercePlan(row.plan),
     monthlyCount: Number(row.monthly_count ?? 0),
     source: 'supabase',
   });
-
-  if (snapshot.remaining < 0 || snapshot.monthlyCount > snapshot.monthlyLimit) {
-    throw new Error('Usage limit reached.');
-  }
-
-  return snapshot;
 }

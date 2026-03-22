@@ -1,3 +1,4 @@
+import { UpgradeButton } from '@/components/upgrade-button';
 import { appEnv } from '@/lib/env';
 
 export function PaywallCard() {
@@ -6,13 +7,13 @@ export function PaywallCard() {
       <div className="planHeader">
         <div>
           <p className="tinyLabel">Simple pricing</p>
-          <h3>One low-friction plan for teams who send high-stakes messages often.</h3>
+          <h3>Start free, then upgrade when ClearReply becomes part of your weekly workflow.</h3>
         </div>
-        <div className="planPill">Phase 2 scaffolded</div>
+        <div className="planPill">Premium micro-SaaS model</div>
       </div>
 
       <p className="mutedText">
-        The monetization path stays intentionally lean: a credible free trial, a hard monthly cap, and room to add Stripe checkout and webhooks without rebuilding the product model.
+        The offer is intentionally straightforward: enough free usage to feel the value, then a clean monthly plan for people who want reliable access whenever a sensitive message needs to go out fast.
       </p>
 
       <div className="pricingGrid">
@@ -20,12 +21,12 @@ export function PaywallCard() {
           <p className="tinyLabel">Free</p>
           <div className="priceLockup">
             <span className="price">$0</span>
-            <span className="mutedText">to validate value</span>
+            <span className="mutedText">to test the fit</span>
           </div>
           <ul className="statusList">
             <li>{appEnv.freeGenerations} generations per month</li>
-            <li>Anonymous/session-based usage support</li>
-            <li>Ideal for first-use conversion and onboarding</li>
+            <li>Full three-variant drafting experience</li>
+            <li>Best for first-use validation and light occasional needs</li>
           </ul>
         </div>
 
@@ -37,26 +38,28 @@ export function PaywallCard() {
           </div>
           <ul className="statusList">
             <li>{appEnv.paidMonthlyMessageLimit} generations per month target</li>
-            <li>Structure ready for Stripe price + webhook mapping</li>
-            <li>Target max model cost per user: ${appEnv.targetMaxCostPerUserUsd.toFixed(0)}</li>
+            <li>Designed for recurring client, support, and ops communication</li>
+            <li>Stripe checkout and webhook foundations already in place</li>
           </ul>
         </div>
       </div>
 
       <div className="wiringChecklist">
         <div>
-          <p className="tinyLabel">Infra status</p>
+          <p className="tinyLabel">Current build readiness</p>
           <ul className="statusList compactList">
             <li>Supabase: {appEnv.hasSupabase ? 'server-ready' : 'needs real URL, anon key, and service role key'}</li>
-            <li>Stripe API keys: {appEnv.hasStripeKeys ? 'present' : 'needs live/test secret + publishable keys'}</li>
+            <li>Stripe secret key: {appEnv.hasStripeSecretKey ? 'present' : 'needed for checkout + webhooks'}</li>
+            <li>Stripe publishable key: {appEnv.hasStripePublishableKey ? 'present' : 'optional right now unless client-side Stripe UI is added later'}</li>
             <li>Stripe webhook: {appEnv.stripeWebhookConfigured ? 'present' : 'needs webhook secret for subscription sync'}</li>
             <li>Price ID: {appEnv.stripePriceId ? 'present' : 'needs monthly plan price ID'}</li>
           </ul>
         </div>
 
-        <button className="secondaryButton" type="button">
-          Join waitlist
-        </button>
+        <div className="upgradeButtonWrap">
+          <UpgradeButton />
+          <p className="mutedInline">Best for teams who send enough important messages that a single awkward draft already costs more than the subscription.</p>
+        </div>
       </div>
     </div>
   );

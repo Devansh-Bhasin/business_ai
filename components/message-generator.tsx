@@ -7,7 +7,7 @@ import { ScenarioId, ToneId, UsageSnapshot, VariantResult } from '@/lib/types';
 const defaultContext = `Client owes two invoices from February. We want to stay polite but ask for payment by next Wednesday so the project can continue without delay.`;
 const sessionStorageKey = 'clearreply.session_id';
 const localUsageStorageKey = 'clearreply.local_usage';
-const freeGenerations = Number(process.env.NEXT_PUBLIC_FREE_GENERATIONS || 3);
+const freeGenerations = Number.parseInt(process.env.NEXT_PUBLIC_FREE_GENERATIONS || '3', 10) || 3;
 
 function getOrCreateSessionId() {
   if (typeof window === 'undefined') {
@@ -29,32 +29,35 @@ function getCurrentPeriodKey(date = new Date()) {
 }
 
 function getLocalUsageSnapshot(sessionId: string): UsageSnapshot {
-  if (typeof window === 'undefined') {
-    return {
-      sessionId,
-      plan: 'free',
-      monthlyCount: 0,
-      monthlyLimit: freeGenerations,
-      remaining: freeGenerations,
-      periodKey: getCurrentPeriodKey(),
-      source: 'local-fallback',
-    };
-  }
-
-  const raw = window.localStorage.getItem(localUsageStorageKey);
-  const parsed = raw ? JSON.parse(raw) : null;
-  const periodKey = getCurrentPeriodKey();
-  const monthlyCount = parsed?.periodKey === periodKey ? Number(parsed.monthlyCount || 0) : 0;
-
-  return {
+  const emptySnapshot: UsageSnapshot = {
     sessionId,
     plan: 'free',
-    monthlyCount,
+    monthlyCount: 0,
     monthlyLimit: freeGenerations,
-    remaining: Math.max(freeGenerations - monthlyCount, 0),
-    periodKey,
+    remaining: freeGenerations,
+    periodKey: getCurrentPeriodKey(),
     source: 'local-fallback',
   };
+
+  if (typeof window === 'undefined') {
+    return emptySnapshot;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(localUsageStorageKey);
+    const parsed = raw ? JSON.parse(raw) : null;
+    const periodKey = getCurrentPeriodKey();
+    const monthlyCount = parsed?.periodKey === periodKey ? Number(parsed.monthlyCount || 0) : 0;
+
+    return {
+      ...emptySnapshot,
+      monthlyCount,
+      remaining: Math.max(freeGenerations - monthlyCount, 0),
+      periodKey,
+    };
+  } catch {
+    return emptySnapshot;
+  }
 }
 
 function storeLocalUsage(monthlyCount: number) {

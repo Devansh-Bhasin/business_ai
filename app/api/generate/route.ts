@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { buildPrompt } from '@/lib/prompt';
 import { assertServerEnv, appEnv } from '@/lib/env';
 import { getOpenAIClient } from '@/lib/openai';
-import { reserveUsage } from '@/lib/usage';
+import { commitUsage, getUsageSnapshot } from '@/lib/usage';
 import { ScenarioId, ToneId } from '@/lib/types';
 
 function isValidScenario(value: string): value is ScenarioId {
@@ -18,6 +18,14 @@ function isValidScenario(value: string): value is ScenarioId {
 
 function isValidTone(value: string): value is ToneId {
   return ['balanced', 'empathetic', 'direct'].includes(value);
+}
+
+function buildLimitMessage(plan: 'free' | 'paid') {
+  if (plan === 'paid') {
+    return `You’ve reached the ${appEnv.paidMonthlyMessageLimit}-message paid limit for this month.`;
+  }
+
+  return `You’ve reached the ${appEnv.freeGenerations}-message free limit for this month. Paid plan support is scaffolded for ${appEnv.paidMonthlyMessageLimit} generations/month once Stripe is wired.`;
 }
 
 export async function POST(request: Request) {
@@ -41,21 +49,9 @@ export async function POST(request: Request) {
       );
     }
 
-    let usage;
-
-    try {
-      usage = await reserveUsage(sessionId);
-    } catch (usageError) {
-      const message = usageError instanceof Error ? usageError.message : 'Unable to reserve usage.';
-      if (message.includes('USAGE_LIMIT_REACHED') || message.includes('Usage limit reached')) {
-        return NextResponse.json(
-          {
-            error: `You’ve reached the ${appEnv.freeGenerations}-message free limit for this month. Paid plan support is scaffolded for ${appEnv.paidMonthlyMessageLimit} generations/month once Stripe is wired.`,
-          },
-          { status: 402 }
-        );
-      }
-      throw usageError;
+    const usageBefore = await getUsageSnapshot(sessionId);
+    if (usageBefore.remaining <= 0) {
+      return NextResponse.json({ error: buildLimitMessage(usageBefore.plan) }, { status: 402 });
     }
 
     const completion = await getOpenAIClient().chat.completions.create({
@@ -90,6 +86,18 @@ export async function POST(request: Request) {
 
     if (!parsed.professional || !parsed.warm || !parsed.firm) {
       throw new Error('OpenAI response did not include all required variants.');
+    }
+
+    let usage;
+
+    try {
+      usage = await commitUsage(sessionId);
+    } catch (usageError) {
+      const message = usageError instanceof Error ? usageError.message : 'Unable to commit usage.';
+      if (message.includes('USAGE_LIMIT_REACHED') || message.includes('Usage limit reached')) {
+        return NextResponse.json({ error: buildLimitMessage(usageBefore.plan) }, { status: 409 });
+      }
+      throw usageError;
     }
 
     return NextResponse.json({
